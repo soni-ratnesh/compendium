@@ -1,0 +1,6 @@
+dill
+spacy
+matplotlib
+seaborn 
+torch
+torchtext
