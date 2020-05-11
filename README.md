@@ -32,7 +32,8 @@ The testing accuracy and loss are,<br>
 
     Test Loss     :  2.23
     Test PPE      :  10.87
-
+## Need trained model?
+We do provide trained model, just let us know. you can get trained model from [here](https://drive.google.com/file/d/1v4Ja_5NAHfUe4e_cJi1wGFI8XojVTyfV/view?usp=sharing) . Save the provideed file in brain dir to load and run.
 ## Contribution
 Pull requests are welcome. If have an idea please let me know through an issue.
 For contribution please raise pull requests by,
