@@ -26,6 +26,8 @@ Steps for installation
 `. env\bin\activate`
 4. Install required library<br>
 `pip install -r requirements.txt`  
+5. Run Jupyter notebook
+`jupyter notebook`
 
 ## Result
 The testing accuracy and loss are,<br>
