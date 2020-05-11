@@ -39,7 +39,7 @@ The testing accuracy and loss are,<br>
 
     Test Loss     :  2.23
     Test PPE      :  10.87
-<<<<<<< HEAD
+
 ## Need trained model?
 We do provide trained model, just let us know. you can get trained model from [here](https://drive.google.com/file/d/1v4Ja_5NAHfUe4e_cJi1wGFI8XojVTyfV/view?usp=sharing) . Save the provideed file in brain dir to load and run.
 
@@ -47,7 +47,6 @@ We do provide trained model, just let us know. you can get trained model from [h
 ## Short for time??<br>                                                  
 Feel free to raise an [issue](https://github.com/soni-ratnesh/compendium/issues) to correct errors or contribute content without a pull request.
 
->>>>>>> 7236a0e9d2865adaeb07333f3f5660e40f01df3f
 ## Contribution
 Pull requests are welcome. If have an idea please let me know through an issue.
 For contribution please raise pull requests by,
