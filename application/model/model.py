@@ -85,3 +85,38 @@ class Decoder(nn.Module):
         prediction = self.fc_out(torch.cat((output, weighted, embedded), dim=1))
 
         return prediction, hidden.squeeze(0), attn.squeeze(1)
+
+
+class Seq2Seq(nn.Module):
+    def __init__(self, encoder, decoder, text_pad_idx, device):
+        super().__init__()
+
+        self.encoder = encoder
+        self.decoder = decoder
+        self.text_pad_idx = text_pad_idx
+
+    def create_mask(self, text):
+        mask = (text != self.text_pad_idx).permute(1, 0)
+        return mask
+
+    def forward(self, text, text_len, headline, teacher_forcing_ratio=0.5):
+        batch_size = text.shape[1]
+        headline_len = headline.shape[0]
+        headline_vocab_size = self.decoder.output_dim
+
+        outputs = torch.zeros(headline_len, batch_size, headline_vocab_size)
+
+        encoder_outputs, hidden = self.encoder(text, text_len)
+
+        input_ = headline[0, :]
+
+        mask = self.create_mask(text)
+
+        for t in range(1, headline_len):
+            output, hidden, _ = self.decoder(input_, hidden, encoder_outputs, mask)
+            outputs[t] = output
+            teacher_force = random.random() < teacher_forcing_ratio
+            top1 = output.argmax(1)
+            input_ = headline[t] if teacher_force else top1
+
+        return outputs
