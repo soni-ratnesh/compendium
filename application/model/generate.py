@@ -27,3 +27,5 @@ dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, DEC_DROPOUT, at
 
 model = Seq2Seq(enc, dec, ARTICLE_PAD_IDX, device)
 
+model.load_state_dict(torch.load('./data/model.brain', map_location=device))
+
