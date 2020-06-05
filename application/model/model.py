@@ -48,3 +48,40 @@ class Attention(nn.Module):
         attention = attention.masked_fill(mask == 0, -1e10)
 
         return F.softmax(attention, dim=1)
+
+
+class Decoder(nn.Module):
+    def __init__(self, output_dim, emb_dim, enc_hid_dim, dec_hid_dim, dropout, attention):
+        super().__init__()
+
+        self.output_dim = output_dim
+        self.attention = attention
+
+        self.embedding = nn.Embedding(output_dim, emb_dim)
+        self.rnn = nn.GRU((enc_hid_dim * 2) + emb_dim, dec_hid_dim)
+        self.fc_out = nn.Linear((enc_hid_dim * 2) + dec_hid_dim + emb_dim, output_dim)
+
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, input_, hidden, encoder_outputs, mask):
+        input_ = input_.unsqueeze(0)
+        embedded = self.dropout(self.embedding(input_))
+
+        attn = self.attention(hidden, encoder_outputs, mask)
+        attn = attn.unsqueeze(1)
+
+        encoder_outputs = encoder_outputs.permute(1, 0, 2)
+        weighted = torch.bmm(attn, encoder_outputs)
+
+        weighted = weighted.permute(1, 0, 2)
+        rnn_input_ = torch.cat((embedded, weighted), dim=2)
+
+        output, hidden = self.rnn(rnn_input_, hidden.unsqueeze(0))
+
+        embedded = embedded.squeeze(0)
+        output = output.squeeze(0)
+        weighted = weighted.squeeze(0)
+
+        prediction = self.fc_out(torch.cat((output, weighted, embedded), dim=1))
+
+        return prediction, hidden.squeeze(0), attn.squeeze(1)
