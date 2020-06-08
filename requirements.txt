@@ -1,8 +1,9 @@
+flask
 notebook
 dill
 spacy
 matplotlib
 seaborn 
-torch===1.5.0 
-torchvision===0.6.0
+torch===1.5.0
+python-dotenv
 torchtext
