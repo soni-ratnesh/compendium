@@ -7,9 +7,9 @@ from application.model.model import Encoder, Decoder, Attention, Seq2Seq
 device = torch.device('cpu')
 
 # Load source and destination field
-with open("./data/ARTICLE.Field", "rb")as f:
+with open("./application/model/brain/ARTICLE.Field", "rb")as f:
     ARTICLE = dill.load(f)
-with open("./data/SUMMARY.Field", "rb")as f:
+with open("./application/model/brain/SUMMARY.Field", "rb")as f:
     SUMMARY = dill.load(f)
 
 INPUT_DIM = len(ARTICLE.vocab)
@@ -28,15 +28,15 @@ dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, DEC_DROPOUT, at
 
 model = Seq2Seq(enc, dec, ARTICLE_PAD_IDX, device)
 
-model.load_state_dict(torch.load('./data/model.brain', map_location=device))
+model.load_state_dict(torch.load('./application/model/brain/model.brain', map_location=device))
 
 
-def predict(sentence, src_field, trg_field, model, max_len=50):
+def predict(sentence, max_len=50):
     model.eval()
     nlp = spacy.load('en')
     tokens = [token.text.lower() for token in nlp(sentence)]
-    tokens = [src_field.init_token] + tokens + [src_field.eos_token]
-    src_indexes = [src_field.vocab.stoi[token] for token in tokens]
+    tokens = [ARTICLE.init_token] + tokens + [ARTICLE.eos_token]
+    src_indexes = [ARTICLE.vocab.stoi[token] for token in tokens]
 
     src_tensor = torch.LongTensor(src_indexes).unsqueeze(1)
     src_len = torch.LongTensor([len(src_indexes)])
@@ -45,7 +45,7 @@ def predict(sentence, src_field, trg_field, model, max_len=50):
         encoder_outputs, hidden = model.encoder(src_tensor, src_len)
 
     mask = model.create_mask(src_tensor)
-    trg_indexes = [trg_field.vocab.stoi[trg_field.init_token]]
+    trg_indexes = [SUMMARY.vocab.stoi[SUMMARY.init_token]]
     attentions = torch.zeros(max_len, 1, len(src_indexes))
 
     for i in range(max_len):
@@ -59,9 +59,9 @@ def predict(sentence, src_field, trg_field, model, max_len=50):
         pred_token = output.argmax(1).item()
         trg_indexes.append(pred_token)
 
-        if pred_token == trg_field.vocab.stoi[trg_field.eos_token]:
+        if pred_token == SUMMARY.vocab.stoi[SUMMARY.eos_token]:
             break
 
-    trg_tokens = [trg_field.vocab.itos[i] for i in trg_indexes]
+    trg_tokens = [SUMMARY.vocab.itos[i] for i in trg_indexes]
 
     return trg_tokens[1:], attentions[:len(trg_tokens) - 1]
