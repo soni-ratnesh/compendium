@@ -31,8 +31,8 @@ Steps for installation?<br>
 `. env\bin\activate`
 6. Install required library<br>
 `pip install -r requirements.txt`  
-7. Run Jupyter notebook<br>
-`jupyter notebook`
+7. Run Flask server<br>
+`bash start.sh`
 
 ## Result
 The testing accuracy and loss are,<br>
