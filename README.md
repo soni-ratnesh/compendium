@@ -20,21 +20,22 @@ Files and there uses are listed below
 ## Installation
 Steps for installation?<br>
 1. Download venv<br>
-`pip install virtualenv`
+    `pip3 install virtualenv`
 2. Clone<br>
-`git clone https://github.com/soni-ratnesh/compendium.git`
+    `git clone https://github.com/soni-ratnesh/compendium.git`
 3. Change directory<br>
-`cd compendium                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      `
-4. Create virtual environment<br>
-`pip venv env`
-5. Activate virtual env<br>
-`. env\bin\activate`
-6. Install required library<br>
-`pip install -r requirements.txt`  
+    `cd compendium                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      `
+4. Create and activate virtual environment<br>
+    `pip3 venv env`<br> 
+    `. env\bin\activate`
+5. Install required library<br>
+    `pip3 install -r requirements.txt`  
+6. Install spacy english model
+    `python3 -m spacy download en`
 7. Copy brain file<br>
-`cp <your barin file path> ./application/model/brain`<br>
+    `cp <your barin file path> ./application/model/brain`<br>
 8. Run Flask server<br>
-`bash start.sh`
+    `bash start.sh`
 
 ## Result
 The testing accuracy and loss are,<br>
