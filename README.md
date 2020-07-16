@@ -30,8 +30,8 @@ Steps for installation?<br>
     `. env\bin\activate`
 5. Install required library<br>
     `pip3 install -r requirements.txt`  
-6. Install spacy english model
-    `python3 -m spacy download en`
+6. Install spacy english model<br>
+    `python3 -m spacy download en`<br>
 7. Copy brain file<br>
     `cp <your barin file path> ./application/model/brain`<br>
 8. Run Flask server<br>
