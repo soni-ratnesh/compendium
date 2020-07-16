@@ -31,7 +31,9 @@ Steps for installation?<br>
 `. env\bin\activate`
 6. Install required library<br>
 `pip install -r requirements.txt`  
-7. Run Flask server<br>
+7. Copy brain file<br>
+`cp <your barin file path> ./application/model/brain`<br>
+8. Run Flask server<br>
 `bash start.sh`
 
 ## Result
