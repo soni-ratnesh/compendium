@@ -4,6 +4,6 @@ dill
 spacy
 matplotlib
 seaborn 
-torch===1.5.0
+torch===2.2.0
 python-dotenv
 torchtext
